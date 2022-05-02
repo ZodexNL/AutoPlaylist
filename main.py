@@ -8,6 +8,10 @@ Lastly we need to add this song into our new Spotify playlist
 
 """
 
+# imports
+import json
+import requests
+from apikeys import spotify_user_id
 
 
 class CreatePlaylist:
@@ -15,8 +19,9 @@ class CreatePlaylist:
     # This method is called everytime an object is created from a class
     # __init__ initializes the object's attributes
     def __init__(self):
-        # pass means that is passes the method
-        pass
+
+        # Set the user ID attribute
+        self.user_id = spotify_user_id
 
     # Function to log into YouTube
     def get_youtube_client(self):
@@ -28,7 +33,15 @@ class CreatePlaylist:
 
     # Function that creates a new spotify playlist
     def create_playlist(self):
-        pass
+
+        # This is for the spotify playlist api
+        request_body = json.dumps({
+            "name": "Alle gelikde YouTube video's",
+            "description": "Alle gelikede videos's op YouTube",
+            "public": "True"
+        })
+
+        query = "https://api.spotify.com/v1/users/{}/playlists".format(self.user_id)
 
     # Function that searches the song on spotify
     def get_spotify_uri(self):
