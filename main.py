@@ -11,7 +11,9 @@ Lastly we need to add this song into our new Spotify playlist
 # imports
 import json
 import requests
-from apikeys import spotify_user_id
+
+# This gets the variables from another file
+from apikeys import spotify_user_id, spotify_token
 
 
 class CreatePlaylist:
@@ -22,6 +24,7 @@ class CreatePlaylist:
 
         # Set the user ID attribute
         self.user_id = spotify_user_id
+        self.spotify_token = spotify_token
 
     # Function to log into YouTube
     def get_youtube_client(self):
@@ -34,14 +37,28 @@ class CreatePlaylist:
     # Function that creates a new spotify playlist
     def create_playlist(self):
 
-        # This is for the spotify playlist api
+        # This sets the name, description and wether or not the playlist should be public
         request_body = json.dumps({
             "name": "Alle gelikde YouTube video's",
             "description": "Alle gelikede videos's op YouTube",
-            "public": "True"
+            "public": "false"
         })
 
+        # This is the call to the api and creates the playlist
         query = "https://api.spotify.com/v1/users/{}/playlists".format(self.user_id)
+
+        response = requests.post(
+            query,
+            data=request_body,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": "Bearer {}".format(spotify_token)
+        }
+        )
+        response_json = response.json()
+
+        # the playlist id
+        return response_json["id"]
 
     # Function that searches the song on spotify
     def get_spotify_uri(self):
