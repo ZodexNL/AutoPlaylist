@@ -1,5 +1,6 @@
 # imports
 import requests
+import json
 
 from apikeys import spotify_user_id, spotify_token
 
@@ -27,6 +28,12 @@ def main():
     )
 
     print(f"Playlist: {playlist}")
+
+    # pretty = json.dumps(playlist, indent=4)
+    # print(pretty)
+
+    ding = playlist["id"]
+    print(ding)
 
 
 if __name__ == '__main__':
